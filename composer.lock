@@ -180,12 +180,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/console.git",
-                "reference": "1cc2a80f06791b2ef19ab406028d87aa0a8c945a"
+                "reference": "e92aaafa5a09a54850f2250d1c531d8cee9e8842"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/console/zipball/1cc2a80f06791b2ef19ab406028d87aa0a8c945a",
-                "reference": "1cc2a80f06791b2ef19ab406028d87aa0a8c945a",
+                "url": "https://api.github.com/repos/illuminate/console/zipball/e92aaafa5a09a54850f2250d1c531d8cee9e8842",
+                "reference": "e92aaafa5a09a54850f2250d1c531d8cee9e8842",
                 "shasum": ""
             },
             "require": {
@@ -223,7 +223,7 @@
             ],
             "description": "The Illuminate Console package.",
             "homepage": "http://laravel.com",
-            "time": "2015-07-14 17:22:16"
+            "time": "2015-07-24 15:00:00"
         },
         {
             "name": "illuminate/container",
@@ -316,12 +316,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/database.git",
-                "reference": "e128b7f2208b9f11b57edd750a6ad3bec35233b1"
+                "reference": "6e38a41baf92cdc352402f0c1a4784e2be931fbb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/database/zipball/e128b7f2208b9f11b57edd750a6ad3bec35233b1",
-                "reference": "e128b7f2208b9f11b57edd750a6ad3bec35233b1",
+                "url": "https://api.github.com/repos/illuminate/database/zipball/6e38a41baf92cdc352402f0c1a4784e2be931fbb",
+                "reference": "6e38a41baf92cdc352402f0c1a4784e2be931fbb",
                 "shasum": ""
             },
             "require": {
@@ -367,7 +367,7 @@
                 "orm",
                 "sql"
             ],
-            "time": "2015-07-22 16:30:01"
+            "time": "2015-07-22 19:02:18"
         },
         {
             "name": "illuminate/filesystem",
