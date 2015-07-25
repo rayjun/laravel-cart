@@ -28,7 +28,7 @@ class LaravelCartServiceProvider extends ServiceProvider
     public function registerAssets()
     {
         $mFrom = __DIR__ . '/../migrations/';
-        $mTo = __DIR__ . $this->app['path.database'] . '/migrations/';
+        $mTo = $this->app['path.database'] . '/migrations/';
 
         $this->publishes([
             $mFrom . '2015_07_25_101858_create_carts_table.php' => $mTo . '2015_07_25_101858_create_carts_table.php',
