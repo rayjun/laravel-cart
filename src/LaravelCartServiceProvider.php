@@ -34,7 +34,7 @@ class LaravelCartServiceProvider extends ServiceProvider
             /*$mFrom . '2015_07_25_101858_create_carts_table.php' => $mTo . '2015_07_25_101858_create_carts_table.php',
             $mFrom . '2015_07_25_102038_create_cart_items_table.php' => $mTo . '2015_07_25_102038_create_cart_items_table.php',
             */
-            __DIR__.'/../database/migrations/' => database_path('/migrations')
+            __DIR__.'/../migrations/' => database_path('/migrations')
         ], 'migrations');
     }
 
