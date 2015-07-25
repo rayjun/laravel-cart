@@ -1,6 +1,7 @@
 <?php
 
 namespace Rayjun\LaravelCart;
+
 use Illuminate\Support\ServiceProvider;
 
 /**
