@@ -6,6 +6,6 @@
  * Time: 下午2:07
  */
 
-class CartTest {
+class CartTest{
 
 }

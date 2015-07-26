@@ -15,6 +15,10 @@ class Cart extends Model {
     protected $table = 'carts';
 
 
+    //购物车项的属性
+    protected $itemAttributes = array(['cart_id', 'good_id', 'count', 'price', 'color', 'size', 'total_price']);
+
+
     /**
      * 创建或者查找一个购物车
      */
@@ -51,6 +55,8 @@ class Cart extends Model {
 
     /**
      * 获取购物车中的所有商品
+     * @param $cart_id
+     * @return mixed
      */
     public function getAllItems($cart_id)
     {
@@ -62,6 +68,8 @@ class Cart extends Model {
 
     /**
      * 计算购物车内商品的数量
+     * @param $cart_id
+     * @return int
      */
     public function count($cart_id)
     {
@@ -83,6 +91,8 @@ class Cart extends Model {
 
     /**
      * 计算购物车的总价格
+     * @param $cart_id
+     * @return int
      */
     public function totalPrice($cart_id)
     {
@@ -104,7 +114,87 @@ class Cart extends Model {
     }
 
     /**
+     * 更新商品的数目
+     * @param $itemId
+     * @param $qty
+     * @return mixed
+     */
+    public function updateQty($itemId, $qty)
+    {
+        if($qty < 0)
+        {
+            return $this->removeItem($itemId);
+        }
+
+        return $this->updateItem($itemId, ['count' => $qty]);
+
+    }
+
+
+    public function removeItem($itemId)
+    {
+        $item = CartItem::findOrFail($itemId);
+
+        $item->delete();
+    }
+
+    /**
+     * 更新一件商品的属性
+     * @param $itemId
+     * @param $attributes
+     */
+    public function updateItem($itemId, $attributes)
+    {
+        $item = CartItem::findOrFail($itemId);
+
+
+        foreach($attributes as $key => $value)
+        {
+            if(array_key_exists($key, $this->itemAttributes))
+            {
+                $item->$key = $value;
+            }
+
+        }
+
+        if( ! is_null(array_keys($attributes, ['count', 'price'])))
+        {
+            $item->total_price = $item->count * $item->price;
+        }
+
+        $item->save();
+
+        return $item;
+    }
+
+    /**
+     *  清空购物车
+     * @param $cart_id
+     * @return mixed
+     */
+    public function removeAllItem($cart_id)
+    {
+        $cart = Cart::findOrFail($cart_id);
+
+        $items = $this->getAllItems($cart_id);
+
+        foreach($items as $item)
+        {
+            $item->delete();
+        }
+
+        $cart->total_value = 0;
+        $cart->total_number = 0;
+
+        $cart->save();
+
+        return $cart;
+    }
+
+    /**
      * 增加购物车商品
+     * @param $attributes
+     * @return CartItem
      */
     protected function addItem($attributes)
     {
