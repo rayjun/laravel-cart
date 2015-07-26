@@ -28,7 +28,14 @@ class Cart extends Model {
 
         if(!$cart)
         {
-            return null;
+
+            $cart = new Cart();
+            $cart->user_id = $user_id;
+            $cart->total_value = 0;
+            $cart->total_number = 0;
+            $cart->save();
+
+            return $cart;
         }
         else
         {
@@ -65,6 +72,18 @@ class Cart extends Model {
         return $items;
     }
 
+
+    /**
+     * 获取一个特定的购物车项
+     * @param $item_id
+     * @return mixed
+     */
+    public function getItem($item_id)
+    {
+        $item = CartItem::findOrfail($item_id);
+
+        return $item;
+    }
 
     /**
      * 计算购物车内商品的数量
@@ -115,37 +134,39 @@ class Cart extends Model {
 
     /**
      * 更新商品的数目
-     * @param $itemId
+     * @param $item_id
      * @param $qty
      * @return mixed
      */
-    public function updateQty($itemId, $qty)
+    public function updateQty($item_id, $qty)
     {
         if($qty < 0)
         {
-            return $this->removeItem($itemId);
+            return $this->removeItem($item_id);
         }
 
-        return $this->updateItem($itemId, ['count' => $qty]);
+        return $this->updateItem($item_id, ['count' => $qty]);
 
     }
 
 
-    public function removeItem($itemId)
+    public function removeItem($item_id)
     {
-        $item = CartItem::findOrFail($itemId);
+        $item = CartItem::findOrFail($item_id);
 
         $item->delete();
+
+        return true;
     }
 
     /**
      * 更新一件商品的属性
-     * @param $itemId
+     * @param $item_id
      * @param $attributes
      */
-    public function updateItem($itemId, $attributes)
+    public function updateItem($item_id, $attributes)
     {
-        $item = CartItem::findOrFail($itemId);
+        $item = CartItem::findOrFail($item_id);
 
 
         foreach($attributes as $key => $value)
