@@ -16,7 +16,7 @@ class Cart extends Model {
 
 
     //购物车项的属性
-    protected $itemAttributes = array(['cart_id', 'good_id', 'count', 'price', 'color', 'size', 'total_price']);
+    protected $itemAttributes = array('cart_id', 'good_id', 'count', 'price', 'color', 'size', 'total_price');
 
 
     /**
@@ -54,6 +54,8 @@ class Cart extends Model {
         $attributes = compact('cart_id', 'good_id', 'count', 'price', 'color', 'size', 'total_price');
 
         $item = $this->addItem($attributes);
+
+        $this->updateCart($cart_id);
 
         return $item;
 
@@ -150,11 +152,18 @@ class Cart extends Model {
     }
 
 
+    /**
+     * 删除一个购物车项
+     * @param $item_id
+     * @return bool
+     */
     public function removeItem($item_id)
     {
         $item = CartItem::findOrFail($item_id);
 
         $item->delete();
+
+        $this->updateCart($item->cart_id);
 
         return true;
     }
@@ -171,7 +180,7 @@ class Cart extends Model {
 
         foreach($attributes as $key => $value)
         {
-            if(array_key_exists($key, $this->itemAttributes))
+            if(in_array($key, $this->itemAttributes))
             {
                 $item->$key = $value;
             }
@@ -184,6 +193,8 @@ class Cart extends Model {
         }
 
         $item->save();
+
+        $this->updateCart($item->cart_id);
 
         return $item;
     }
@@ -204,12 +215,45 @@ class Cart extends Model {
             $item->delete();
         }
 
-        $cart->total_value = 0;
-        $cart->total_number = 0;
-
-        $cart->save();
+        $this->updateCart($cart_id);
 
         return $cart;
+    }
+
+
+    /**
+     * 更新购物车信息，主要总价格和商品数量
+     * @param $cart_id
+     * @return bool
+     */
+    public function updateCart($cart_id)
+    {
+        $cart = $this->getCart($cart_id);
+
+        if(! $cart)
+        {
+            return false;
+        }
+
+        $total = $this->totalPrice($cart_id);
+        $count = $this->count($cart_id);
+
+        $cart->total_value = $total;
+        $cart->total_number = $count;
+        $cart->save();
+
+        return true;
+    }
+
+
+    /**
+     * 根据购物车 id 获取购物车详情
+     * @param $cart_id
+     * @return mixed
+     */
+    public function getCart($cart_id)
+    {
+        return Cart::findOrFail($cart_id);
     }
 
     /**

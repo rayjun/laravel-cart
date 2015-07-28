@@ -13,5 +13,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class CartItem extends Model  {
 
-    protected $table = 'cartItems';
+    protected $table = 'cart_items';
 }
